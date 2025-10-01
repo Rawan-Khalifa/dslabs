@@ -313,7 +313,7 @@ class Raft:
             self._votes_received.add(from_node)
             
             # Count total votes (including our own vote for ourselves)
-            total_votes = len(self._votes_received) + 1  # +1 for voting for ourselves
+            total_votes = len(self._votes_received) 
             
             # Calculate majority
             majority = len(self.peers) // 2 + 1  # ✅ Fixed!
