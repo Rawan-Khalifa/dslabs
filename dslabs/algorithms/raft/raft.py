@@ -316,7 +316,7 @@ class Raft:
             total_votes = len(self._votes_received) + 1  # +1 for voting for ourselves
             
             # Calculate majority
-            majority = (len(self.peers) + 1) // 2 + 1
+            majority = len(self.peers) // 2 + 1  # ✅ Fixed!
             
             # If we have majority, become leader
             if total_votes >= majority:
@@ -498,7 +498,7 @@ class Raft:
                         replicated_count += 1
             
             # Check if majority has replicated
-            majority = (len(self.peers) + 1) // 2 + 1
+            majority = len(self.peers) // 2 + 1  # ✅ Fixed!
             if replicated_count >= majority:
                 self.commit_index = n
                 # Apply newly committed entries
