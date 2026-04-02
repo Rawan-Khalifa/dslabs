@@ -18,6 +18,7 @@ class SimSendMany:
         message_delay=10,
         drop_prob=0,
         random_seed=None,
+        node_kwargs=None,
     ):
         self.params = {
             "node_class": node_class,
@@ -26,6 +27,7 @@ class SimSendMany:
             "message_delay": message_delay,
             "drop_prob": drop_prob,
             "random_seed": random_seed if random_seed else random.randint(0, 2**128),
+            "node_kwargs": node_kwargs or {},
         }
 
         self.clock = scheduler.SimClock()
@@ -43,9 +45,10 @@ class SimSendMany:
         node_ids = [f"n{i}" for i in range(self.params["num_nodes"])]
         self.nodes = {}
         for nid in node_ids:
-            # Create a node object
+            # Create a node object with additional kwargs
             node = self.params["node_class"](
-                nid, node_ids, transport=self.network, scheduler=self.scheduler
+                nid, node_ids, transport=self.network, scheduler=self.scheduler,
+                **self.params["node_kwargs"]
             )
             self.nodes[nid] = node
             # "Registration": Tell the network object how to deliver a message to a node object
